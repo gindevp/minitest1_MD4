@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>Update product</title>
+</head>
+
+<body>
+<h1>Update product</h1>
+<p>
+    <a href="/home">Home</a>
+</p>
+
+<form th:action="@{/update/__${product.id}__}" th:object="${product}" method="post" novalidate="novalidate" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="${product.name}" /></td>
+        </tr>
+        <tr>
+            <td>Cost:</td>
+            <td><input type="text" th:field="${product.price}" /></td>
+        </tr>
+        <tr>
+            <td>Img:</td>
+            <td><input type="file" id="input" th:field="${product.img}" /></td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Update product"></td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+
+
+</html>
