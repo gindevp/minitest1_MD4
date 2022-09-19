@@ -44,11 +44,12 @@ public class ProductController {
         String filename= multipartFile.getOriginalFilename();
         try{
             FileCopyUtils.copy(uploadProduct.getImg().getBytes(), new File(fileUpload+ filename));
+            System.out.println("thanh cong");
         } catch (IOException e) {
             e.printStackTrace();
         }
         Product product= new Product(uploadProduct.getId(),uploadProduct.getName(),uploadProduct.getPrice(),filename);
-        ModelAndView modelAndView= new ModelAndView("/product/update");
+        ModelAndView modelAndView= new ModelAndView("/product/create");
         modelAndView.addObject("product",new Product());
         productSevice.save(product);
         return modelAndView;
@@ -57,8 +58,38 @@ public class ProductController {
     public ModelAndView showDetail(@PathVariable int id){
         ModelAndView modelAndView= new ModelAndView("/product/detail");
         Product  product = productSevice.findById(id);
-        modelAndView.addObject("")
+        modelAndView.addObject("product", product);
+        return modelAndView;
+    }
+    @GetMapping("/update/{id}")
+    public ModelAndView showFormUpdate(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView("/product/update");
+        Product product = productSevice.findById(id);
+        modelAndView.addObject("product", product);
+        return modelAndView;
+    }
 
-
+    @PostMapping("/update/{id}")
+    public ModelAndView updateProduct(@ModelAttribute UploadProduct productForm){
+        MultipartFile multipartFile = productForm.getImg();
+        String fileName= multipartFile.getOriginalFilename();
+        try{
+            FileCopyUtils.copy(productForm.getImg().getBytes(), new File(fileUpload+ fileName));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        Product product = new Product(productForm.getId(), productForm.getName(),productForm.getPrice(),fileName);
+        ModelAndView modelAndView =new ModelAndView("/product/update");
+        modelAndView.addObject("product", new Product());
+        productSevice.save(product);
+        return modelAndView;
+    }
+    @GetMapping("/delete/{id}")
+    public ModelAndView showDeleteForm(@PathVariable int id) {
+        productSevice.remove(id);
+        List<Product> productList = productSevice.findAll();
+        ModelAndView modelAndView = new ModelAndView("/product/list");
+        modelAndView.addObject("products",productList);
+        return modelAndView;
     }
 }

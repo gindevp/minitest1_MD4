@@ -14,12 +14,12 @@
             <div class="col-3">
                 <div class="card" style="margin-bottom: 20px; ">
                     <div>
-                        <img class="card-img-top" th:src="@{'/WEB-INF/img/img.png'}" alt="Card image" width="200px" height="450px">
+                        <img class="card-img-top" th:src="@{'/image/' + ${product.getImg()}}" alt="Card image" width="200px" height="450px">
                         <div class="card-body">
                             <h4 class="card-title" th:text="${product.name}"></h4>
                             <p class="card-text" th:text="${product.price}+'VND'"></p>
                             <a th:href="@{/update/__${product.id}__}"  class="btn btn-success">Edit</a>
-                            <a th:href="@{/edit/__${product.id}__}" class="btn btn-danger">Delete</a>
+                            <a th:href="@{/delete/__${product.id}__}" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
